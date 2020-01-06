@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="js/jquery.min.js"></script>
+<style type="text/css">
+
+td{
+   vertical-align:center;
+   text-align: center;
+   }
+   
+ #div2{
+   margin-top: 100px;
+ 
+ }
+ 
+ #td0,#td1,#td2,#td3,#td4,#td5,#td6,#td7,#td8{
+   color: green;
+ }
+ 
+ img{
+   border-radius: 15px;
+ }
+
+
+</style>
+</head>
+<body>
+    
+     <div align="center" id = "div1">
+                            请输入要查询的信息:<input type = "text" id = "tx" name = "tx">
+                      <button id = "btn">点击根据Roleid查询</button>
+                      <button id = "btn1">点击根据手机号查询</button>       
+     </div>
+     
+     <div id = div2 style="display:none;">
+     <table  width="100%" height="100%" border="1px" cellspacing="0">
+                <tr>           
+                <td>昵称</td>
+                <td>头像</td>
+                <td>手机号</td>
+                <td>成就值</td>
+                <td>总游戏时长</td>
+                <td>身份</td>
+                <td>探索值</td>
+                <td>玩家ID</td>
+                <td>角色ID</td>
+                <td>评论次数</td>
+                <td>点赞次数</td>
+                <td>浏览剧本个数</td>
+                <td>今日在线时长</td>
+                
+                </tr>  
+                
+                <tr>
+                <td id = "td0"></td>
+                <td id = "td1"><img alt="" src=""></td>
+                <td id = "td2"></td>
+                <td id = "td3"></td>
+                <td id = "td4"></td>
+                <td id = "td5"></td>
+                <td id = "td6"></td>
+                <td id = "td7"></td>
+                <td id = "td8"></td>
+                <td id = "td9"></td>
+                <td id = "td10"></td>
+                <td id = "td11"></td>
+                <td id = "td12"></td>
+               </tr>      
+     </table>
+     </div>
+     
+     
+      <div id = div3 style="display:none;">
+     <table  width="100%" height="100%" border="1px" cellspacing="0">
+                <tr>           
+                <td>昵称</td>
+                <td>头像</td>
+                <td>手机号</td>
+                <td>成就值</td>
+                <td>总游戏时长</td>
+                <td>身份</td>
+                <td>探索值</td>
+                <td>玩家ID</td>
+                <td>角色ID</td>
+                <td>评论次数</td>
+                <td>点赞次数</td>
+                <td>浏览剧本个数</td>
+                <td>今日在线时长</td>
+                
+                </tr>  
+                
+                <tr>
+                <td id = "td13"></td>
+                <td id = "td14"><img alt="" src=""></td>
+                <td id = "td15"></td>
+                <td id = "td16"></td>
+                <td id = "td17"></td>
+                <td id = "td18"></td>
+                <td id = "td19"></td>
+                <td id = "td20"></td>
+                <td id = "td21"></td>
+                <td id = "td22"></td>
+                <td id = "td23"></td>
+                <td id = "td24"></td>
+                <td id = "td25"></td>
+               </tr>      
+     </table>
+     </div>
+
+    <script type="text/javascript">
+                   
+                   $('#btn').click(function(){
+                	   
+                	 var roleId =  $("#tx").val();
+                	  $.ajax({
+                         type : "get",
+                   		 url : '/gm/getfindmessageBylayerId/' + '' + roleId,
+                   		 dataType : 'json',
+                   	
+                   		success : function(result) {
+                   			
+                   			$("#div2").show();
+        		
+                   		    var onlinetime = JSON.stringify(result.onlineTime);          
+                   		    var hour = parseInt((onlinetime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));//小时
+                   		    var minute =  parseInt((onlinetime % (1000 * 60 * 60)) / (1000 * 60));;//分钟
+                   		 
+                   		    if(result.nickName==null){
+                   		    	$("#td0").html("暂无昵称");
+                   		    }else{
+                   		    	$("#td0").html(result.nickName);
+                   		    }
+                   		    
+                    		if(result.avatar_url==null){
+                   		    	$("#td1").html("暂无头像");
+                   		    }else{
+                   		    	$("img").attr("src",result.avatar_url);
+                   		    } 
+                   		    
+                   		    if(result.phone==null){
+                   		    	$("#td2").html("该用户暂未绑定手机");
+                   		    }else{
+                   		    	$("#td2").html(result.phone);
+                   		    }
+                   		    
+                   		    if(result.achievement==null){"C:/Users/Public/Nwt/cache/recv/赵旭东/不眨眼后台系统.jpg"
+                   		    	$("#td3").html("暂无成就值");
+                   		    }else{                  	
+                   		    	$("#td3").html(result.achievement);
+                   		    }
+
+                   			
+                   			if(hour==0){
+                   				$("#td4").html(0+"小时"+minute+"分钟");
+                   			}else if(minute==0){
+                   				$("#td4").html(hour+"小时"+0+"分钟");
+                   			}else{
+                   				$("#td4").html(hour+""+"小时"+minute+""+"分钟");
+                   			}
+                   			
+                   			
+                   			if(result.is_guest==1){
+                   				$("#td5").html("游客");
+                   			}else{
+                   				$("#td5").html("玩家");
+                   			}
+                   			
+                   			
+                   			if(result.exploration==0){
+                   				$("#td6").html("暂无成就值");
+                   			}else{
+                   				$("#td6").html(result.exploration);
+                   			}
+                   			
+                            if(result.playerId==null){
+                            	$("#td7").html("暂无玩家ID");
+                   			}else{
+                   				$("#td7").html(result.playerId);
+                   			}
+                   			
+                   			if(result.roleid==null){
+                   				$("#td8").html("暂无角色ID");
+                   			}else{
+                   				$("#td8").html(result.roleid);
+                   			}
+                   			
+                   			
+                        }
+                    })  	  
+                });
+                   
+                   $('#btn1').click(function(){
+                	   
+                  	 var roleId =  $("#tx").val();
+                  	  $.ajax({
+                           type : "get",
+                     		 url : '/gm/getinfirmationbyphone/' + '' + roleId,
+                     		 dataType : 'json',
+                     	
+                     		success : function(result) {
+                     			
+                     			 var onlinetime = JSON.stringify(result.onlineTime);          
+                        		 var hour = parseInt((onlinetime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));//小时
+                        		 var minute =  parseInt((onlinetime % (1000 * 60 * 60)) / (1000 * 60));;//分钟
+                        		 
+                        		 if(result.nickName==null){
+                        		    	$("#td0").html("暂无昵称");
+                        		    }else{
+                        		    	$("#td0").html(result.nickName);
+                        		    }
+                        		    
+                         		if(result.avatar_url==null){
+                        		    	$("#td1").html("暂无头像");
+                        		    }else{
+                        		    	$("img").attr("src",result.avatar_url);
+                        		    } 
+                        		    
+                        		    if(result.phone==null){
+                        		    	$("#td2").html("该用户暂未绑定手机");
+                        		    }else{
+                        		    	$("#td2").html(result.phone);
+                        		    }
+                        		    
+                        		    if(result.achievement==null){"C:/Users/Public/Nwt/cache/recv/赵旭东/不眨眼后台系统.jpg"
+                        		    	$("#td3").html("暂无成就值");
+                        		    }else{                  	
+                        		    	$("#td3").html(result.achievement);
+                        		    }
+
+                        			
+                        			if(hour==0){
+                        				$("#td4").html(0+"小时"+minute+"分钟");
+                        			}else if(minute==0){
+                        				$("#td4").html(hour+"小时"+0+"分钟");
+                        			}else{
+                        				$("#td4").html(hour+""+"小时"+minute+""+"分钟");
+                        			}
+                        			
+                        			
+                        			if(result.is_guest==1){
+                        				$("#td5").html("游客");
+                        			}else{
+                        				$("#td5").html("玩家");
+                        			}
+                        			
+                        			
+                        			if(result.exploration==0){
+                        				$("#td6").html("暂无成就值");
+                        			}else{
+                        				$("#td6").html(result.exploration);
+                        			}
+                        			
+                                 if(result.playerId==null){
+                                 	$("#td7").html("暂无玩家ID");
+                        			}else{
+                        				$("#td7").html(result.playerId);
+                        			}
+                        			
+                        			if(result.roleid==null){
+                        				$("#td8").html("暂无角色ID");
+                        			}else{
+                        				$("#td8").html(result.roleid);
+                        			}
+                     		
+                     			
+                          }
+                      })  	  
+                  });  
+                   
+    </script>
+</body>
+</html>
